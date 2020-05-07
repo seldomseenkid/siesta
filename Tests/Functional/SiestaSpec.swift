@@ -6,8 +6,10 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-import Quick
 @testable import Siesta
+
+import Foundation
+import Quick
 
 private var currentLogMessages: [String] = []
 private var currentTestFailed: Bool = false
@@ -15,6 +17,12 @@ private var activeSuites = 0
 
 class SiestaSpec: QuickSpec
     {
+    static func envFlag(_ key: String) -> Bool
+        {
+        let value = ProcessInfo.processInfo.environment["Siesta_\(key)"] ?? ""
+        return value == "1" || value == "true"
+        }
+
     override func spec()
         {
         beforeSuite
@@ -23,8 +31,12 @@ class SiestaSpec: QuickSpec
             SiestaLog.messageHandler =
                 {
                 _, message in
+
+                let messageWithTimestamp = String(format: "%1.9f %@", ProcessInfo.processInfo.systemUptime, message)
+                if Self.envFlag("ShowTestOutputImmediately")
+                    { print(messageWithTimestamp) }
                 DispatchQueue.main.async
-                    { currentLogMessages.append(message) }
+                    { currentLogMessages.append(messageWithTimestamp) }
                 }
             }
 
@@ -85,8 +97,7 @@ private class ResultsAggregator
             { return }
 
         do  {
-            let json = ["results": results.toJson["children"]!]
-            let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
+            let jsonData = try! JSONEncoder().encode(["results": results.children])
             try jsonData.write(to: URL(fileURLWithPath: "/tmp/siesta-spec-results.json"), options: [.atomic])
             }
         catch
@@ -120,7 +131,8 @@ private class ResultsAggregator
             }
         else
             {
-            subtree.callsite = callsite
+            subtree.file = callsite.file.description
+            subtree.line = callsite.line
             subtree.passed = passed
             }
         }
@@ -133,10 +145,11 @@ private class ResultsAggregator
         }
     }
 
-private class Result
+private class Result: Codable
     {
     let name: String
-    var callsite: Quick.Callsite?
+    var file: String?
+    var line: UInt?
     var passed: Bool?
     var children: [Result] = []
 
@@ -151,20 +164,5 @@ private class Result
         let newChild = Result(name: named)
         children.append(newChild)
         return newChild
-        }
-
-    var toJson: [String:Any]
-        {
-        var json: [String:Any] = ["name": name]
-        if let callsite = callsite
-            {
-            json["file"] = callsite.file
-            json["line"] = callsite.line
-            }
-        if let passed = passed
-            { json["passed"] = passed }
-        if !children.isEmpty
-            { json["children"] = children.map { $0.toJson } }
-        return json
         }
     }
