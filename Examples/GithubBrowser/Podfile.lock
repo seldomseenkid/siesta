@@ -1,18 +1,53 @@
 PODS:
+  - CombineCocoa (0.1.0)
+  - CombineDataSources (0.2.5)
+  - CombineExt (1.1.0)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxOptional (4.1.0):
+    - RxCocoa (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
   - Siesta/Core (1.5.1)
   - Siesta/UI (1.5.1):
     - Siesta/Core
 
 DEPENDENCIES:
+  - CombineCocoa
+  - CombineDataSources
+  - CombineExt
+  - RxCocoa
+  - RxOptional
+  - RxSwift
   - Siesta/UI (from `../..`)
+
+SPEC REPOS:
+  trunk:
+    - CombineCocoa
+    - CombineDataSources
+    - CombineExt
+    - RxCocoa
+    - RxOptional
+    - RxRelay
+    - RxSwift
 
 EXTERNAL SOURCES:
   Siesta:
     :path: "../.."
 
 SPEC CHECKSUMS:
+  CombineCocoa: 2e8f52a4d2b6cead22842977e6eb32933feb2bf9
+  CombineDataSources: dcbc3b06a038ffdf620b3b4533d3ecaf76ca6a2e
+  CombineExt: 64ee7b95d8c1891882d4b0baa21c0148e865ef66
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   Siesta: 0b689eff328778c754c4f9afe33ffd70af5ada3d
 
-PODFILE CHECKSUM: 974001388daa9ecbfa915ea0bc4093a33242099c
+PODFILE CHECKSUM: b4dc3397cf9a3fa03cf4d6c8b160528b2c35afa7
 
 COCOAPODS: 1.9.1
