@@ -146,6 +146,8 @@ public struct ResourceState<T>
     public let isLoading: Bool
     /// Resource.isRequesting
     public let isRequesting: Bool
+    /// Resource.isUpToDate
+    public let isUpToDate: Bool
 
     /**
     Usually the other fields of this struct are sufficient, but sometimes it's useful to have access to
@@ -154,13 +156,14 @@ public struct ResourceState<T>
     public let latestEvent: ResourceEvent
 
 	/// Create
-    public init(content: T?, latestError: RequestError?, isLoading: Bool, isRequesting: Bool, latestEvent: ResourceEvent)
+    public init(content: T?, latestError: RequestError?, isLoading: Bool, isRequesting: Bool, latestEvent: ResourceEvent, isUpToDate: Bool)
 		{
         self.content = content
         self.latestError = latestError
         self.isLoading = isLoading
         self.isRequesting = isRequesting
         self.latestEvent = latestEvent
+        self.isUpToDate = isUpToDate
     	}
 
     /// Transform state into a different content type
@@ -171,7 +174,8 @@ public struct ResourceState<T>
             latestError: latestError,
             isLoading: isLoading,
             isRequesting: isRequesting,
-            latestEvent: latestEvent)
+            latestEvent: latestEvent,
+            isUpToDate: isUpToDate)
         }
     }
 
@@ -195,7 +199,8 @@ extension Resource
                 latestError: latestError ?? contentTypeError,
                 isLoading: isLoading,
                 isRequesting: isRequesting,
-                latestEvent: latestEvent
+                latestEvent: latestEvent,
+                isUpToDate: isUpToDate
         )
         }
 	}
