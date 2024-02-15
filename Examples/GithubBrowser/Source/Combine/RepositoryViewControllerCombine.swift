@@ -8,7 +8,10 @@
 
 import UIKit
 import Siesta
-import RxSwift
+import SiestaUI
+import Combine
+import CombineCocoa
+import CombineExt
 
 class RepositoryViewController: UIViewController {
 
@@ -25,13 +28,13 @@ class RepositoryViewController: UIViewController {
     /**
     The input to this class - the repository to display. We allow it to change, although as it happens it's only
     called with a single value.
-    Whether it's better to pass in a resource or an observable here is much the same argument as whether to define
-    APIs in terms of resources or observables. See UserViewController for a discussion about that.
+    Whether it's better to pass in a resource or a publisher here is much the same argument as whether to define
+    APIs in terms of resources or publishers. See UserViewController for a discussion about that.
     */
-    var repositoryResource: Observable<Resource>?
+    var repositoryResource: AnyPublisher<Resource /* Repository */, Never>?
 
     private var statusOverlay = ResourceStatusOverlay()
-    private var disposeBag = DisposeBag()
+    private var subs = [AnyCancellable]()
 
 
     override func viewDidLoad() {
@@ -75,80 +78,82 @@ class RepositoryViewController: UIViewController {
 
         // -- Resources --
 
-        let repository: Observable<Repository?> = repositoryResource
+        let repository: AnyPublisher<Repository?, Never> = repositoryResource
                 .watchedBy(statusOverlay: statusOverlay)
-                .flatMapLatest { $0.rx.optionalContent() }
+                .flatMapLatest { $0.optionalContentPublisher() }
+                .eraseToAnyPublisher()
 
-        let contributors: Observable<[User]?> = repository.map {
+        let contributors: AnyPublisher<[User]?, Never> = repository.map {
                     $0.flatMap(GitHubAPI.contributors)
                 }
                 .watchedBy(statusOverlay: statusOverlay)
-                .flatMapLatest { $0?.rx.optionalContent() ?? .just(nil) }
+                .flatMapLatest { $0?.optionalContentPublisher().eraseToAnyPublisher() ?? Just(nil).eraseToAnyPublisher() }
+                .eraseToAnyPublisher()
 
-        let languages: Observable<[String: Int]?> = repository.map {
+        let languages: AnyPublisher<[String: Int]?, Never> = repository.map {
                     $0.flatMap(GitHubAPI.languages)
                 }
                 .watchedBy(statusOverlay: statusOverlay)
-                .flatMapLatest { $0?.rx.optionalContent() ?? .just(nil) }
+                .flatMapLatest { $0?.optionalContentPublisher().eraseToAnyPublisher() ?? Just(nil).eraseToAnyPublisher() }
+                .eraseToAnyPublisher()
 
-        let isStarred: Observable<Bool> = repository.map {
+        let isStarred: AnyPublisher<Bool, Never> = repository.map {
                     $0.flatMap(GitHubAPI.currentUserStarred)
                 }
                 .watchedBy(statusOverlay: statusOverlay)
-                .flatMapLatest { $0?.rx.optionalContent().map { $0 ?? false } ?? .just(false) }
+                .flatMapLatest { $0?.optionalContentPublisher().map { $0 ?? false }.eraseToAnyPublisher() ?? Just(false).eraseToAnyPublisher() }
+                .eraseToAnyPublisher()
 
 
         // -- Display --
 
-        repository.bind { [unowned self] repository in
+        repository.sink { [unowned self] repository in
                     self.navigationItem.title = repository?.name
                     self.descriptionLabel?.text = repository?.description
                     self.homepageButton?.setTitle(repository?.homepage, for: .normal)
                 }
-                .disposed(by: disposeBag)
+                .store(in: &subs)
 
         contributors
                 .map {
                     $0?.map { $0.login }.joined(separator: "\n")
                         ?? "-"
                 }
-                .bind(to: contributorsLabel.rx.text)
-                .disposed(by: disposeBag)
+                .assign(to: \.text, on: contributorsLabel)
+                .store(in: &subs)
 
         languages
                 .map { $0?.keys.joined(separator: " • ") ?? "-" }
-                .bind(to: languagesLabel.rx.text)
-                .disposed(by: disposeBag)
+                .assign(to: \.text, on: languagesLabel)
+                .store(in: &subs)
 
-        Observable.combineLatest(isStarred, repository)
-                .bind { [unowned self] in
-                    let (isStarred, repository) = $0
-
+        isStarred.combineLatest(repository)
+                .sink { [unowned self] isStarred, repository in
                     self.starCountLabel?.text = repository?.starCount?.description
                     self.starIcon?.text = isStarred ? "★" : "☆"
                     self.starButton?.setTitle(isStarred ? "Unstar" : "Star", for: .normal)
                     self.starButton?.isEnabled = (repository != nil)
                 }
-                .disposed(by: disposeBag)
+                .store(in: &subs)
 
 
         // -- Actions --
 
-        homepageButton?.rx.tap
+        homepageButton?.tapPublisher
                 .withLatestFrom(repository)
-                .bind {
+                .sink {
                     if let homepage = $0?.homepage,
                        let homepageURL = URL(string: homepage) {
                         UIApplication.shared.open(homepageURL)
                     }
                 }
-                .disposed(by: disposeBag)
+                .store(in: &subs)
 
-        starButton?.rx.tap
-            .withLatestFrom(Observable.combineLatest(isStarred, repository))
-            .flatMap { [unowned self] args -> Observable<Void> in
+        starButton?.tapPublisher
+            .withLatestFrom(isStarred.combineLatest(repository))
+            .flatMap { [unowned self] args -> AnyPublisher<Void, Never> in
                 let isStarred = args.0
-                guard let repository = args.1 else { return .empty() }
+                guard let repository = args.1 else { return Empty().eraseToAnyPublisher() }
 
                 // Two things of note here:
                 //
@@ -168,20 +173,21 @@ class RepositoryViewController: UIViewController {
 
                 self.startStarRequestAnimation()
 
-                // Creating a Request and using its rx methods is at times a bad idea -  you might be better off
-                // with Resource.rx.request* instead. Read the method comments to find out why.
+                // Creating a Request and using its publisher methods is at times a bad idea -  you might be better off
+                // with Resource.*requestPublisher instead. Read the method comments to find out why.
                 //
                 // However, it works here, and we're sticking with the version of the api that gives us a Request, rather
                 // than modifying it to be reactive.
                 //
                 // In fact in this case we could just as easily do away with the flatMap and use an onCompletion block on
-                // GitHubAPI.setStarred, but this is an rx demo!
-                return GitHubAPI.setStarred(!isStarred, repository: repository).rx.observable()
+                // GitHubAPI.setStarred, but this is a Combine demo!
+                return GitHubAPI.setStarred(!isStarred, repository: repository).publisher()
+                        .catch { _ in Just(()) }.eraseToAnyPublisher()
             }
-            .bind { [unowned self] in
+            .sink { [unowned self] _ in
                 self.stopStarRequestAnimation()
             }
-            .disposed(by: disposeBag)
+            .store(in: &subs)
     }
 
     private func startStarRequestAnimation() {

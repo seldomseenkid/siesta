@@ -1,11 +1,14 @@
 import UIKit
 import Siesta
-import RxSwift
+import SiestaUI
+import Combine
+import CombineExt
+import CombineDataSources
 
 class RepositoryListViewController: UITableViewController {
 
     private var statusOverlay = ResourceStatusOverlay()
-    private var disposeBag = DisposeBag()
+    private var subs = [AnyCancellable]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,34 +28,34 @@ class RepositoryListViewController: UITableViewController {
     /**
     The input to this class - the repositories to display.
 
-    Whether it's better to pass in a resource or an observable here is much the same argument as whether to define
-    APIs in terms of resources or observables. See UserViewController for a discussion about that.
+    Whether it's better to pass in a resource or a publisher here is much the same argument as whether to define
+    APIs in terms of resources or publishers. See UserViewController for a discussion about that.
     */
-func configure(repositories: Observable<Resource? /* [Repository] */>) {
-    /*
-    Oh hey, in the next small handful of lines, let's:
-    - make an api call if necessary to fetch the latest repo list we're to show
-    - display progress and errors while doing that, and
-    - populate the table.
-    */
-    repositories
-        // In this project we have an extension to tell Siesta's status overlay to be
-        // interested in the latest Resource output by a Resource sequence. The following
-        // line gives us a progress spinner, error display and retry functionality.
-        .watchedBy(statusOverlay: statusOverlay)
+    func configure(repositories: AnyPublisher<Resource? /* [Repository] */, Never>) {
+        /*
+        Oh hey, in the next small handful of lines, let's:
+        - make an api call if necessary to fetch the latest repo list we're to show
+        - display progress and errors while doing that, and
+        - populate the table.
+        */
+        repositories
+                // In this project we have an extension to tell Siesta's status overlay to be
+                // interested in the latest Resource output by a Resource publisher. The following
+                // line gives us a progress spinner, error display and retry functionality.
+                .watchedBy(statusOverlay: statusOverlay)
 
-        // Transform the sequence of Resources into a sequence of their content: [Repository].
-        .flatMapLatest { resource -> Observable<[Repository]> in
-            resource?.rx.content() ?? .just([])
-        }
+                // Transform the sequence of Resources into a sequence of their content: [Repository].
+                .flatMapLatest { resource -> AnyPublisher<[Repository], Never> in
+                    resource?.contentPublisher() ?? Just([]).eraseToAnyPublisher()
+                }
 
-        // This is everything we need to populate the table with the list of repos.
-        .bind(to: tableView.rx.items(cellIdentifier: "repo", cellType: RepositoryTableViewCell.self)) { 
-            (row, repo, cell) in
-            cell.repository = repo
-        }
-        .disposed(by: disposeBag)
-}
+                // This is everything we need to populate the table with the list of repos,
+                // courtesy of CombineDataSources.
+                .bind(subscriber: tableView.rowsSubscriber(cellIdentifier: "repo", cellType: RepositoryTableViewCell.self, cellConfig: { cell, indexPath, repo in
+                    cell.repository = repo
+                }))
+                .store(in: &subs)
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "repoDetail" {
@@ -60,7 +63,7 @@ func configure(repositories: Observable<Resource? /* [Repository] */>) {
                let cell = sender as? RepositoryTableViewCell {
 
                 if let repo = cell.repository {
-                    repositoryVC.repositoryResource = .just(GitHubAPI.repository(repo))
+                    repositoryVC.repositoryResource = Just(GitHubAPI.repository(repo)).eraseToAnyPublisher()
                 }
             }
         }
@@ -102,4 +105,11 @@ class RepositoryTableViewCell: UITableViewCell {
             icon.imageURL = repository?.owner.avatarURL
         }
     }
+}
+
+// Required by CombineDataSources for binding the repositories to the table
+extension Repository: Hashable {
+    public func hash(into hasher: inout Hasher) { url.hash(into: &hasher) }
+
+    public static func ==(lhs: Repository, rhs: Repository) -> Bool { lhs.url == rhs.url }
 }

@@ -219,7 +219,7 @@ private func resourceExpansionMatcher(
         relationship: @escaping (Resource,String) -> Resource)
 -> Nimble.Predicate<(Resource,String)>
     {
-    Predicate
+        Nimble.Predicate
         {
         inputs in
 

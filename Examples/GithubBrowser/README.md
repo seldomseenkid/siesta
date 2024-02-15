@@ -52,8 +52,9 @@ If you hit the GitHub API’s rate limit while running the demo, press the “Lo
 
 You can use a [personal access token](https://github.com/settings/tokens) in place of your password. You don’t need to grant any permissions to your token for this app; just the public access will do.
 
-## Combine and RxSwift
+## Combine
 
-The main view controllers have *Combine and *Rx variants to demonstrate the use of Siesta's reactive extensions, and the project has accompanying Combine and Rx targets.
+The main view controllers have *Combine variants to demonstrate the use of 
+Siesta's reactive extensions, and the project has an accompanying Combine target.
 
 You might find it instructive to compare the reactive controllers with their non-reactive versions, particularly if you're an existing Siesta user thinking of adopting the reactive extensions.
