@@ -4,3 +4,4 @@ xcuserdata
 .build
 .swiftpm
 Siesta.xcodeproj/xcshareddata/xcbaselines
+.idea/
