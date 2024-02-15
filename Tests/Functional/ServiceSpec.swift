@@ -504,7 +504,7 @@ class ServiceSpec: SiestaSpec
 
 // MARK: - Custom matchers
 
-func expandToBaseURL(_ expectedURL: String) -> Predicate<String>
+func expandToBaseURL(_ expectedURL: String) -> Nimble.Predicate<String>
     {
     Predicate
         {
@@ -525,7 +525,7 @@ func expandToBaseURL(_ expectedURL: String) -> Predicate<String>
         }
     }
 
-func expandToResourceURL(_ expectedURL: String) -> Predicate<(String,String)>
+func expandToResourceURL(_ expectedURL: String) -> Nimble.Predicate<(String,String)>
     {
     Predicate
         {

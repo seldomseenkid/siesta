@@ -217,9 +217,9 @@ private func resourceExpansionMatcher(
         _ expectedURL: String,
         relationshipName: String,
         relationship: @escaping (Resource,String) -> Resource)
-    -> Predicate<(Resource,String)>
+-> Nimble.Predicate<(Resource,String)>
     {
-    Predicate
+        Nimble.Predicate
         {
         inputs in
 
@@ -238,13 +238,13 @@ private func resourceExpansionMatcher(
         }
     }
 
-private func expandToChildURL(_ expectedURL: String) -> Predicate<(Resource,String)>
+private func expandToChildURL(_ expectedURL: String) -> Nimble.Predicate<(Resource,String)>
     {
     resourceExpansionMatcher(expectedURL, relationshipName: "child")
         { resource, path in resource.child(path) }
     }
 
-private func expandToRelativeURL(_ expectedURL: String) -> Predicate<(Resource,String)>
+private func expandToRelativeURL(_ expectedURL: String) -> Nimble.Predicate<(Resource,String)>
     {
     resourceExpansionMatcher(expectedURL, relationshipName: "relative")
         { resource, path in resource.relative(path) }

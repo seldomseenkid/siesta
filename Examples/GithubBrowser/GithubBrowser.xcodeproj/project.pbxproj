@@ -3,10 +3,32 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3ADB7C732B7DB836006D7882 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF8E2411AE9F00F9931A /* LoginViewController.swift */; };
+		3ADB7C762B7DB836006D7882 /* SiestaTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF892411AE9F00F9931A /* SiestaTheme.swift */; };
+		3ADB7C772B7DB836006D7882 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF8F2411AE9F00F9931A /* AppDelegate.swift */; };
+		3ADB7C782B7DB836006D7882 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF9A2411AE9F00F9931A /* Repository.swift */; };
+		3ADB7C792B7DB836006D7882 /* CommentaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF8A2411AE9F00F9931A /* CommentaryViewController.swift */; };
+		3ADB7C7A2B7DB836006D7882 /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF9C2411AE9F00F9931A /* GithubAPI.swift */; };
+		3ADB7C7C2B7DB836006D7882 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF982411AE9F00F9931A /* SearchResults.swift */; };
+		3ADB7C7D2B7DB836006D7882 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF992411AE9F00F9931A /* User.swift */; };
+		3ADB7C7E2B7DB836006D7882 /* Optional+GithubBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF912411AE9F00F9931A /* Optional+GithubBrowser.swift */; };
+		3ADB7C802B7DB836006D7882 /* Siesta in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADB7C702B7DB836006D7882 /* Siesta */; };
+		3ADB7C812B7DB836006D7882 /* SiestaUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADB7C712B7DB836006D7882 /* SiestaUI */; };
+		3ADB7C832B7DB836006D7882 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA15FF952411AE9F00F9931A /* Main.storyboard */; };
+		3ADB7C842B7DB836006D7882 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA15FF922411AE9F00F9931A /* Assets.xcassets */; };
+		3ADB7C852B7DB836006D7882 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA15FF932411AE9F00F9931A /* LaunchScreen.storyboard */; };
+		3ADB7C902B7DB8B8006D7882 /* RepositoryListViewControllerCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB7C8C2B7DB8B8006D7882 /* RepositoryListViewControllerCombine.swift */; };
+		3ADB7C912B7DB8B8006D7882 /* RepositoryViewControllerCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB7C8D2B7DB8B8006D7882 /* RepositoryViewControllerCombine.swift */; };
+		3ADB7C922B7DB8B8006D7882 /* UserViewControllerCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB7C8E2B7DB8B8006D7882 /* UserViewControllerCombine.swift */; };
+		3ADB7C932B7DB8B8006D7882 /* SiestaUI+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB7C8F2B7DB8B8006D7882 /* SiestaUI+Combine.swift */; };
+		3ADB7C962B7DBA79006D7882 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADB7C952B7DBA79006D7882 /* CombineCocoa */; };
+		3ADB7C992B7DBA95006D7882 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADB7C982B7DBA95006D7882 /* CombineExt */; };
+		3ADB7C9C2B7DBAD6006D7882 /* CombineDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADB7C9B2B7DBAD6006D7882 /* CombineDataSources */; };
+		3ADB7C9E2B7DBBF2006D7882 /* GitHubAPI+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB7C9D2B7DBBF2006D7882 /* GitHubAPI+Combine.swift */; };
 		DA15FF9F2411AE9F00F9931A /* SiestaTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF892411AE9F00F9931A /* SiestaTheme.swift */; };
 		DA15FFA02411AE9F00F9931A /* CommentaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF8A2411AE9F00F9931A /* CommentaryViewController.swift */; };
 		DA15FFA12411AE9F00F9931A /* RepositoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF8B2411AE9F00F9931A /* RepositoryListViewController.swift */; };
@@ -27,6 +49,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3ADB7C892B7DB836006D7882 /* GithubBrowserCombine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubBrowserCombine.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3ADB7C8C2B7DB8B8006D7882 /* RepositoryListViewControllerCombine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListViewControllerCombine.swift; sourceTree = "<group>"; };
+		3ADB7C8D2B7DB8B8006D7882 /* RepositoryViewControllerCombine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryViewControllerCombine.swift; sourceTree = "<group>"; };
+		3ADB7C8E2B7DB8B8006D7882 /* UserViewControllerCombine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewControllerCombine.swift; sourceTree = "<group>"; };
+		3ADB7C8F2B7DB8B8006D7882 /* SiestaUI+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SiestaUI+Combine.swift"; sourceTree = "<group>"; };
+		3ADB7C9D2B7DBBF2006D7882 /* GitHubAPI+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GitHubAPI+Combine.swift"; sourceTree = "<group>"; };
 		DA15FF702411AE6500F9931A /* GithubBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA15FF892411AE9F00F9931A /* SiestaTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiestaTheme.swift; sourceTree = "<group>"; };
 		DA15FF8A2411AE9F00F9931A /* CommentaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentaryViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +76,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3ADB7C7F2B7DB836006D7882 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3ADB7C992B7DBA95006D7882 /* CombineExt in Frameworks */,
+				3ADB7C802B7DB836006D7882 /* Siesta in Frameworks */,
+				3ADB7C9C2B7DBAD6006D7882 /* CombineDataSources in Frameworks */,
+				3ADB7C962B7DBA79006D7882 /* CombineCocoa in Frameworks */,
+				3ADB7C812B7DB836006D7882 /* SiestaUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA15FF6D2411AE6500F9931A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -60,6 +100,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3ADB7C8B2B7DB8B8006D7882 /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				3ADB7C9D2B7DBBF2006D7882 /* GitHubAPI+Combine.swift */,
+				3ADB7C8C2B7DB8B8006D7882 /* RepositoryListViewControllerCombine.swift */,
+				3ADB7C8D2B7DB8B8006D7882 /* RepositoryViewControllerCombine.swift */,
+				3ADB7C8E2B7DB8B8006D7882 /* UserViewControllerCombine.swift */,
+				3ADB7C8F2B7DB8B8006D7882 /* SiestaUI+Combine.swift */,
+			);
+			path = Combine;
+			sourceTree = "<group>";
+		};
 		DA15FF672411AE6500F9931A = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				DA15FF702411AE6500F9931A /* GithubBrowser.app */,
+				3ADB7C892B7DB836006D7882 /* GithubBrowserCombine.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,6 +137,7 @@
 				DA15FF9B2411AE9F00F9931A /* API */,
 				DA15FF972411AE9F00F9931A /* Model */,
 				DA15FF882411AE9F00F9931A /* UI */,
+				3ADB7C8B2B7DB8B8006D7882 /* Combine */,
 				DA15FF902411AE9F00F9931A /* Util */,
 				DA15FF922411AE9F00F9931A /* Assets.xcassets */,
 				DA15FF932411AE9F00F9931A /* LaunchScreen.storyboard */,
@@ -143,6 +197,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3ADB7C6F2B7DB836006D7882 /* GithubBrowserCombine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3ADB7C862B7DB836006D7882 /* Build configuration list for PBXNativeTarget "GithubBrowserCombine" */;
+			buildPhases = (
+				3ADB7C722B7DB836006D7882 /* Sources */,
+				3ADB7C7F2B7DB836006D7882 /* Frameworks */,
+				3ADB7C822B7DB836006D7882 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GithubBrowserCombine;
+			packageProductDependencies = (
+				3ADB7C702B7DB836006D7882 /* Siesta */,
+				3ADB7C712B7DB836006D7882 /* SiestaUI */,
+				3ADB7C952B7DBA79006D7882 /* CombineCocoa */,
+				3ADB7C982B7DBA95006D7882 /* CombineExt */,
+				3ADB7C9B2B7DBAD6006D7882 /* CombineDataSources */,
+			);
+			productName = GithubBrowser;
+			productReference = 3ADB7C892B7DB836006D7882 /* GithubBrowserCombine.app */;
+			productType = "com.apple.product-type.application";
+		};
 		DA15FF6F2411AE6500F9931A /* GithubBrowser */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA15FF842411AE6700F9931A /* Build configuration list for PBXNativeTarget "GithubBrowser" */;
@@ -189,17 +267,31 @@
 			);
 			mainGroup = DA15FF672411AE6500F9931A;
 			packageReferences = (
+				3ADB7C942B7DBA79006D7882 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				3ADB7C972B7DBA95006D7882 /* XCRemoteSwiftPackageReference "CombineExt" */,
+				3ADB7C9A2B7DBAD6006D7882 /* XCRemoteSwiftPackageReference "CombineDataSources" */,
 			);
 			productRefGroup = DA15FF712411AE6500F9931A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				DA15FF6F2411AE6500F9931A /* GithubBrowser */,
+				3ADB7C6F2B7DB836006D7882 /* GithubBrowserCombine */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3ADB7C822B7DB836006D7882 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3ADB7C832B7DB836006D7882 /* Main.storyboard in Resources */,
+				3ADB7C842B7DB836006D7882 /* Assets.xcassets in Resources */,
+				3ADB7C852B7DB836006D7882 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA15FF6E2411AE6500F9931A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -213,6 +305,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3ADB7C722B7DB836006D7882 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3ADB7C932B7DB8B8006D7882 /* SiestaUI+Combine.swift in Sources */,
+				3ADB7C732B7DB836006D7882 /* LoginViewController.swift in Sources */,
+				3ADB7C912B7DB8B8006D7882 /* RepositoryViewControllerCombine.swift in Sources */,
+				3ADB7C9E2B7DBBF2006D7882 /* GitHubAPI+Combine.swift in Sources */,
+				3ADB7C762B7DB836006D7882 /* SiestaTheme.swift in Sources */,
+				3ADB7C902B7DB8B8006D7882 /* RepositoryListViewControllerCombine.swift in Sources */,
+				3ADB7C772B7DB836006D7882 /* AppDelegate.swift in Sources */,
+				3ADB7C782B7DB836006D7882 /* Repository.swift in Sources */,
+				3ADB7C792B7DB836006D7882 /* CommentaryViewController.swift in Sources */,
+				3ADB7C7A2B7DB836006D7882 /* GithubAPI.swift in Sources */,
+				3ADB7C922B7DB8B8006D7882 /* UserViewControllerCombine.swift in Sources */,
+				3ADB7C7C2B7DB836006D7882 /* SearchResults.swift in Sources */,
+				3ADB7C7D2B7DB836006D7882 /* User.swift in Sources */,
+				3ADB7C7E2B7DB836006D7882 /* Optional+GithubBrowser.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA15FF6C2411AE6500F9931A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -254,6 +367,42 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3ADB7C872B7DB836006D7882 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WMKNS4D9SU;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-Combine.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.GithubBrowserCombine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		3ADB7C882B7DB836006D7882 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WMKNS4D9SU;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-Combine.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.GithubBrowserCombine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		DA15FF822411AE6700F9931A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -407,6 +556,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3ADB7C862B7DB836006D7882 /* Build configuration list for PBXNativeTarget "GithubBrowserCombine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3ADB7C872B7DB836006D7882 /* Debug */,
+				3ADB7C882B7DB836006D7882 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA15FF6B2411AE6500F9931A /* Build configuration list for PBXProject "GithubBrowser" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -427,7 +585,57 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		3ADB7C942B7DBA79006D7882 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
+		3ADB7C972B7DBA95006D7882 /* XCRemoteSwiftPackageReference "CombineExt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineExt.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.1;
+			};
+		};
+		3ADB7C9A2B7DBAD6006D7882 /* XCRemoteSwiftPackageReference "CombineDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		3ADB7C702B7DB836006D7882 /* Siesta */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Siesta;
+		};
+		3ADB7C712B7DB836006D7882 /* SiestaUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SiestaUI;
+		};
+		3ADB7C952B7DBA79006D7882 /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ADB7C942B7DBA79006D7882 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+		3ADB7C982B7DBA95006D7882 /* CombineExt */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ADB7C972B7DBA95006D7882 /* XCRemoteSwiftPackageReference "CombineExt" */;
+			productName = CombineExt;
+		};
+		3ADB7C9B2B7DBAD6006D7882 /* CombineDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ADB7C9A2B7DBAD6006D7882 /* XCRemoteSwiftPackageReference "CombineDataSources" */;
+			productName = CombineDataSources;
+		};
 		DA3138B1271FDEDF0046964F /* Siesta */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Siesta;

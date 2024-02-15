@@ -1,10 +1,9 @@
 import UIKit
 import Siesta
-import RxSwift
-import RxCocoa
-import RxOptional
+import SiestaUI
+import Combine
 
-class UserViewController: UIViewController, UISearchBarDelegate /* the latter only for storyboard compatibility */ {
+class UserViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -16,7 +15,8 @@ class UserViewController: UIViewController, UISearchBarDelegate /* the latter on
 
     var repoListVC: RepositoryListViewController?
 
-    private var disposeBag = DisposeBag()
+    private let searchBarText = PassthroughSubject<String, Never>()
+    private var subs = [AnyCancellable]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,14 +27,14 @@ class UserViewController: UIViewController, UISearchBarDelegate /* the latter on
 
         searchBar.becomeFirstResponder()
 
-        GitHubAPI.isAuthenticatedObservable
+        GitHubAPI.isAuthenticatedPublisher
                 .map { $0 ? "Log Out" : "Log In" }
-                .bind(to: loginButton.rx.title(for: .normal))
-                .disposed(by: disposeBag)
+                .sink { [unowned self] in self.loginButton.setTitle($0, for: .normal) }
+                .store(in: &subs)
 
-        loginButton.rx.tap
-                .withLatestFrom(GitHubAPI.isAuthenticatedObservable)
-                .bind { [unowned self] in
+        loginButton.tapPublisher
+                .withLatestFrom(GitHubAPI.isAuthenticatedPublisher)
+                .sink { [unowned self] in
                     if $0 {
                         GitHubAPI.logOut()
                     }
@@ -42,20 +42,20 @@ class UserViewController: UIViewController, UISearchBarDelegate /* the latter on
                         self.performSegue(withIdentifier: "login", sender: self.loginButton)
                     }
                 }
-                .disposed(by: disposeBag)
+                .store(in: &subs)
 
-        let searchString = searchBar.rx.text
+        let searchString = searchBarText
+                .prepend("")
                 .map { $0 == "" ? nil : $0 }
-                .distinctUntilChanged()
-                .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
-
+                .removeDuplicates()
+                .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
 
         /*
         About API classes:
 
         There are a couple of possibilities for your API methods:
         (1) as with non-reactive Siesta, return a Resource (or a Request)
-        (2) return observables - the result of Resource.rx.state() or rx.request()
+        (2) return publishers - the result of Resource.statePublisher() or requestPublisher()
 
         (2) has the advantage of being strong typed, so you get to know more about your API from your method
         definitions. But you are stepping out of Siesta-world by doing this, and you lose the ability to do
@@ -67,17 +67,17 @@ class UserViewController: UIViewController, UISearchBarDelegate /* the latter on
         but also because we want to use ResourceStatusOverlay. (It would be possible to write a ResourceStatusOverlay
         that understands streams of ResourceState, but here we just use a simple adapter that works with streams of Resource.)
         */
-        let user: Observable<User?> =
+        let user: AnyPublisher<User?, Never> =
                 // Look up the user by name, either when the search string changes or the login state changes. (We
                 // want the latter in case the previous lookup failed because of api rate limits when not logged in.)
                 //
                 // Of course, this being Siesta, "look up" might just consist of getting the already-loaded resource
                 // content. We trigger repeated lookups without fear.
                 //
-                // It works like this: combineLatest outputs another item, causing a new subscription to rx.content()
+                // It works like this: combineLatest outputs another item, causing a new subscription to contentPublisher()
                 // below, which in turn calls loadIfNeeded().
                 //
-                Observable.combineLatest(searchString, GitHubAPI.isAuthenticatedObservable)
+                searchString.combineLatest(GitHubAPI.isAuthenticatedPublisher)
                         .map { searchString, _ -> Resource? in
                             if let searchString = searchString {
                                 return GitHubAPI.user(searchString)
@@ -92,36 +92,40 @@ class UserViewController: UIViewController, UISearchBarDelegate /* the latter on
                         .watchedBy(statusOverlay: statusOverlay)
 
                         // ... then we get the typed content (User - it's part of the `let user` declaration above).
-                        // Finally, a Siesta+Rx operation!
-                        // If we weren't using statusOverlay we might have called state() instead of content() and done
-                        // something with that to display progress and errors as well as the content.
-                        .flatMapLatest { $0?.rx.content() ?? .just(nil) }
+                        // Finally, a Siesta+Combine operation!
+                        //
+                        // If we weren't using statusOverlay we might have called statePublisher() here instead of
+                        // contentPublisher(), and done something with that to display progress and errors as well as the
+                        // content.
+                        .flatMapLatest { $0?.contentPublisher() ?? Just(nil).eraseToAnyPublisher() }
+                        .eraseToAnyPublisher()
 
-        Observable.combineLatest(searchString, user)
-                .bind { [unowned self] searchString, user in
+        searchString.combineLatest(user)
+                .sink { [unowned self] searchString, user in
                     self.fullNameLabel.text = user?.name
                     self.avatar.imageURL = user?.avatarURL
                     self.usernameLabel.text = searchString == nil ? "Active Repositories" : user?.login
                 }
-                .disposed(by: disposeBag)
+                .store(in: &subs)
 
         // Configure the repo list with the repositories to display. It accepts Observable<Resource>, but could have
         // accepted Observable<[Repository]> - see the notes in RepositoryListViewController.
         repoListVC?.configure(repositories:
-            Observable.combineLatest(searchString, user)
-                    .map { (searchString, user) -> Resource? in
-                        if let user = user {
-                            return GitHubAPI.user(user.login)
-                                    .optionalRelative(user.repositoriesURL)?
-                                    .withParam("sort", "updated")
-                        }
-                        else if searchString != nil {
-                            return nil
-                        }
-                        else {
-                            return GitHubAPI.activeRepositories
-                        }
+            searchString.combineLatest(user)
+                .map { (searchString, user) -> Resource? in
+                    if let user = user {
+                        return GitHubAPI.user(user.login)
+                                .optionalRelative(user.repositoriesURL)?
+                                .withParam("sort", "updated")
                     }
+                    else if searchString != nil {
+                        return nil
+                    }
+                    else {
+                        return GitHubAPI.activeRepositories
+                    }
+                }
+                .eraseToAnyPublisher()
             )
     }
 
@@ -164,6 +168,11 @@ class UserViewController: UIViewController, UISearchBarDelegate /* the latter on
         if segue.identifier == "repos" {
             repoListVC = segue.destination as? RepositoryListViewController
         }
+    }
+
+    // CombineCocoa doesn't support UISearchBar (or any other delegate-based components) yet
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchBarText.send(searchText)
     }
 
     // Dummy actions just here for compatibility with the storyboard, which we share with the other implementations
