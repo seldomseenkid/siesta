@@ -32,7 +32,7 @@ func simulateMemoryWarning()
             object: nil)
     }
 
-func beIdentialObjects<T>(_ expectedArray: [T]) -> Predicate<[T]>
+func beIdentialObjects<T>(_ expectedArray: [T]) -> Nimble.Predicate<[T]>
     {
     func makeIdent(_ x: T) -> ObjectIdentifier
         {
