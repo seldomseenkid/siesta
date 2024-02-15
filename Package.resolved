@@ -36,15 +36,6 @@
           "revision": "c93f16c25af5770f0d3e6af27c9634640946b068",
           "version": "9.2.1"
         }
-      },
-      {
-        "package": "Quick",
-        "repositoryURL": "https://github.com/pcantrell/Quick",
-        "state": {
-          "branch": "siesta",
-          "revision": "efedef8e8917ef7ac1495cb406cebbeddb66b6e9",
-          "version": null
-        }
       }
     ]
   },
