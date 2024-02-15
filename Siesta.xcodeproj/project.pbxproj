@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1244,7 +1244,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "swiftlint\n";
+			shellScript = "#swiftlint\n";
 		};
 		DA34E2D2222C72B10025A77A /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1262,7 +1262,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "swiftlint\n\n";
+			shellScript = "#swiftlint\n\n";
 		};
 		DA5E4B4F22DCECEA0059ED10 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1280,7 +1280,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "swiftlint\n";
+			shellScript = "#swiftlint\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

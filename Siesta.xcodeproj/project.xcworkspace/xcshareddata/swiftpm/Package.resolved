@@ -1,52 +1,50 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Alamofire",
-        "repositoryURL": "https://github.com/Alamofire/Alamofire",
-        "state": {
-          "branch": null,
-          "revision": "d120af1e8638c7da36c8481fd61a66c0c08dc4fc",
-          "version": "5.4.4"
-        }
-      },
-      {
-        "package": "CwlCatchException",
-        "repositoryURL": "https://github.com/mattgallagher/CwlCatchException.git",
-        "state": {
-          "branch": null,
-          "revision": "35f9e770f54ce62dd8526470f14c6e137cef3eea",
-          "version": "2.1.1"
-        }
-      },
-      {
-        "package": "CwlPreconditionTesting",
-        "repositoryURL": "https://github.com/mattgallagher/CwlPreconditionTesting.git",
-        "state": {
-          "branch": null,
-          "revision": "fb7a26374e8570ff5c68142e5c83406d6abae0d8",
-          "version": "2.0.2"
-        }
-      },
-      {
-        "package": "Nimble",
-        "repositoryURL": "https://github.com/Quick/Nimble",
-        "state": {
-          "branch": null,
-          "revision": "c93f16c25af5770f0d3e6af27c9634640946b068",
-          "version": "9.2.1"
-        }
-      },
-      {
-        "package": "Quick",
-        "repositoryURL": "https://github.com/pcantrell/quick",
-        "state": {
-          "branch": "siesta",
-          "revision": "efedef8e8917ef7ac1495cb406cebbeddb66b6e9",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "revision" : "d120af1e8638c7da36c8481fd61a66c0c08dc4fc",
+        "version" : "5.4.4"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "cwlcatchexception",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattgallagher/CwlCatchException.git",
+      "state" : {
+        "revision" : "35f9e770f54ce62dd8526470f14c6e137cef3eea",
+        "version" : "2.1.1"
+      }
+    },
+    {
+      "identity" : "cwlpreconditiontesting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattgallagher/CwlPreconditionTesting.git",
+      "state" : {
+        "revision" : "fb7a26374e8570ff5c68142e5c83406d6abae0d8",
+        "version" : "2.0.2"
+      }
+    },
+    {
+      "identity" : "nimble",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Nimble",
+      "state" : {
+        "revision" : "c93f16c25af5770f0d3e6af27c9634640946b068",
+        "version" : "9.2.1"
+      }
+    },
+    {
+      "identity" : "quick",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pcantrell/quick",
+      "state" : {
+        "branch" : "siesta",
+        "revision" : "b2d259be8cb3c129a5ca05bfbeab6b4c679a13f8"
+      }
+    }
+  ],
+  "version" : 2
 }
